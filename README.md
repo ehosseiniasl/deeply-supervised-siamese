@@ -1,5 +1,5 @@
 # Deeply Supervised Siamese Network
-## For Similarity-based Text Classification
+## For Similarity-based Text Recognition
 * Adadelta for training
 
 Reference:  
