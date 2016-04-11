@@ -51,19 +51,8 @@ class ConvolutionLayer(object):
                 borrow=True
             )
 
-            # b_update_values = np.zeros((5,filter_shape[0]), dtype=theano.config.floatX)
             self.b_delta = theano.shared(value=b_values, borrow=True)
 
-            #EHA: define update history for momentum gradient
-            # self.W_update = theano.shared(
-            #     np.zeros(filter_shape, dtype=theano.config.floatX),
-            #     borrow=True
-            # )
-            #
-            # # b_update_values = np.zeros((5,filter_shape[0]), dtype=theano.config.floatX)
-            # self.b_update = theano.shared(value=b_values, borrow=True)
-
-        #ipdb.set_trace()
         conv_out = nnet.conv2d(
             input=input,
             filters=self.W,
@@ -94,9 +83,6 @@ class ConvolutionLayer(object):
 
         # store parameters of this layer
         self.params = [self.W, self.b]
-
-        #EHA: parameter update- list of 5 previous updates
-        # self.params_update = [5*[self.W_update], 5*[self.b_update]]
 
         self.deltas = [self.W_delta, self.b_delta]
 
@@ -136,11 +122,6 @@ class HiddenLayer(object):
             b_values = np.zeros((n_out,), dtype=theano.config.floatX)
             self.b = theano.shared(value=b_values, name='b', borrow=True)
 
-
-
-        # self.W = W
-        # self.b = b
-
             self.W_delta = theano.shared(
                     np.zeros((n_in, n_out), dtype=theano.config.floatX),
                     borrow=True
@@ -154,7 +135,6 @@ class HiddenLayer(object):
 
         lin_output = T.dot(self.input, self.W) + self.b
 
-        # ipdb.set_trace()
         if activation == 'tanh':
             self.output = T.tanh(lin_output)
         elif activation == 'sigmoid':
